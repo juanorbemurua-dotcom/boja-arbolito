@@ -1,7 +1,7 @@
 <html lang="es"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>arbolito2026 viernes clink</title>
+    <title>arbolito handicaps</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -225,6 +225,12 @@
         tr:last-child td { border-bottom: none; }
         tr:nth-child(even) td { background: #f9fafb; }
         tr:hover td { background: #d1fae5; }
+        tr.top6 td { background: #4ade80; }
+        tr.top6:nth-child(even) td { background: #4ade80; }
+        tr.top6:hover td { background: #22c55e; }
+        tr.top1 td { background: #fde68a; }
+        tr.top1:nth-child(even) td { background: #fde68a; }
+        tr.top1:hover td { background: #fcd34d; }
         tr.topGreen td { background: #bbf7d0; }
         tr.topGreen:nth-child(even) td { background: #bbf7d0; }
         tr.topGreen:hover td { background: #86efac; }
@@ -349,7 +355,7 @@
 <div id="login-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#1a4731;display:flex;align-items:center;justify-content:center;z-index:9999;">
   <div style="background:white;border-radius:16px;padding:32px 28px;max-width:320px;width:90%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.3);">
     <div style="font-size:2.5rem;margin-bottom:8px;">⛳</div>
-    <h2 style="color:#166534;margin-bottom:4px;font-size:1.3rem;">Arbolito Golf</h2>
+    <h2 style="color:#166534;margin-bottom:4px;font-size:1.3rem;">Arbolito Handicaps</h2>
     <p style="color:#64748b;font-size:0.85rem;margin-bottom:20px;">Acceso privado</p>
     <input type="password" id="login-pass" placeholder="Contraseña" autocomplete="current-password"
       style="width:100%;padding:10px 14px;border:2px solid #d1d5db;border-radius:8px;font-size:1rem;margin-bottom:12px;outline:none;"
@@ -360,7 +366,7 @@
 </div>
 <script>
 (function() {
-  const PASS = 'borja1234';
+  const PASS = 'golf4321';
   const KEY  = 'arbolito-auth';
   const overlay = document.getElementById('login-overlay');
   if (localStorage.getItem(KEY) === '1') { overlay.style.display = 'none'; return; }
@@ -405,7 +411,7 @@
     <p id="titulo-subtitulo" contenteditable="true" title="Clic para editar" style="cursor:text;outline:none;">Seguimiento de Handicap · Temporada 2026</p>
 </header>
 
-<p class="fecha-hoy" id="fechaHoy">Fecha actual: martes, 2 de junio de 2026</p>
+<p class="fecha-hoy" id="fechaHoy">Fecha actual: lunes, 8 de junio de 2026</p>
 
 <!-- Formulario -->
 <div class="form-card">
@@ -438,7 +444,7 @@
         <div style="display:flex;gap:8px;">
             <button class="btn-update" id="btn-update" onclick="actualizarTodos()">↻ Actualizar RFEG</button>
             <button class="btn-export" onclick="exportarExcel()">⬇ Exportar Excel</button>
-            <button class="btn-export" onclick="guardarJSON()" title="Guardar copia de seguridad">💾 Guardar</button>
+            <button class="btn-export" onclick="guardarJSON()" title="Exportar backup JSON">💾 Backup</button>
             <label class="btn-export" style="cursor:pointer;margin:0" title="Cargar copia de seguridad">
                 📂 Cargar<input type="file" accept=".json" onchange="cargarJSON(event)" style="display:none">
             </label>
@@ -460,7 +466,19 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody id="tabla-body"></tbody>
+        <tbody id="tabla-body"><tr class="top1">
+                <td><span class="medal">🥇</span></td>
+                <td class="nombre">Juan Ignacio Orbe Murua</td>
+                <td class="licencia">VB01069771</td>
+                <td class="hcp hcp-editable" title="Haz clic para editar" onclick="editarHcpIni(this, 0)">6.5</td>
+                <td class="hcp">6.5</td>
+                <td><span class="incremento inc-mejor">-0.0</span></td>
+                <td><span class="incremento inc-mejor">-0.2%</span></td>
+                <td style="text-align:center;font-weight:600;color:#0f766e">3</td>
+                <td style="font-size:0.82rem;color:#64748b;font-weight:400">30-05-2026</td>
+                <td><button class="btn-row-update btn-row-update--stale" id="btn-update-0" onclick="actualizarJugador(0)" title="Actualizar handicap">↻</button></td>
+                <td><button class="btn-del" onclick="eliminarJugador(0)" title="Eliminar">✕</button></td>
+            </tr></tbody>
     </table>
 </div>
 
@@ -469,8 +487,8 @@
   <div style="background:#14532d;color:#fde68a;font-weight:700;font-size:1.05rem;padding:14px 20px;border-radius:10px 10px 0 0;letter-spacing:.03em;display:flex;align-items:center;justify-content:space-between;">
     <span>⛳ Actividad — Últimas 20 rondas jugadas</span>
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-      <select id="selectJugador" onchange="renderTablaActividad()" style="background:#166534;color:#fde68a;border:1px solid rgba(253,230,138,0.5);border-radius:6px;padding:5px 10px;font-weight:600;font-size:0.85rem;cursor:pointer;max-width:240px;"><option value="">— Seleccionar jugador —</option><option value="0">Gonzalo Zuñiga Ascunce</option><option value="1">Juan Ignacio Orbe Murua</option><option value="2">Leonor De Los Toyos Fischer</option><option value="3">Antonio Iturriagagoitia Ripoll</option></select>
-      <button id="btnActualizar" onclick="actualizarActividad()" style="background:#fde68a;color:#14532d;border:none;border-radius:6px;padding:6px 14px;font-weight:700;font-size:0.88rem;cursor:pointer;" disabled="">⏳ Actualizando...</button>
+      <select id="selectJugador" onchange="renderTablaActividad()" style="background:#166534;color:#fde68a;border:1px solid rgba(253,230,138,0.5);border-radius:6px;padding:5px 10px;font-weight:600;font-size:0.85rem;cursor:pointer;max-width:240px;"><option value="">— Seleccionar jugador —</option><option value="0">Juan Ignacio Orbe Murua</option></select>
+      <button id="btnActualizar" onclick="actualizarActividad()" style="background:#fde68a;color:#14532d;border:none;border-radius:6px;padding:6px 14px;font-weight:700;font-size:0.88rem;cursor:pointer;">🔄 Actualizar RFEG</button>
       <button id="btnFichasPDF" onclick="exportarFichasPDF()" style="background: rgb(180, 83, 9); color: rgb(255, 255, 255); border: 1px solid transparent; border-radius: 6px; padding: 6px 14px; font-weight: 700; font-size: 0.88rem; cursor: pointer;" title="Hay cambios — regenerar fichas PDF">📄 Fichas PDF ●</button>
     </div>
   </div>
@@ -487,11 +505,176 @@
     .act-info-bar { background:#f0fdf4; border-bottom:2px solid #bbf7d0; padding:10px 16px; display:flex; gap:24px; flex-wrap:wrap; align-items:center; font-size:0.85rem; color:#166534; font-weight:600; }
     .act-info-bar span { font-weight:400; color:#475569; }
   </style><div class="act-info-bar">
-    <div>Jugador: <span>Leonor De Los Toyos Fischer</span></div>
-    <div>Licencia: <span>4405775876</span></div>
-    <div>HCP actual: <span>15.9</span></div>
-    
-  </div><div style="padding:24px;text-align:center;color:#94a3b8;font-style:italic;">Sin datos — pulsa 🔄 Actualizar RFEG</div></div>
+    <div>Jugador: <span>Juan Ignacio Orbe Murua</span></div>
+    <div>Licencia: <span>VB01069771</span></div>
+    <div>HCP actual: <span>6.488</span></div>
+    <div>Actualizado: <span>29/05/2026</span></div>
+  </div><table class="act-table">
+    <thead><tr>
+      <th>Fecha</th><th>Torneo</th><th>Campo de Golf</th><th>HCP</th><th>STB</th><th>Pen.</th><th>Diferencial</th>
+    </tr></thead>
+    <tbody><tr style="background:#fff5f5">
+      <td class="act-fecha" style="background:#fff5f5">29/05/2026</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff5f5" title="CIRCUITO OLYMPIA ROAD TOUR 2026 - VIERNES">CIRCUITO OLYMPIA ROAD TOUR 2026 - VIERNES</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff5f5" title="BASOZABAL">BASOZABAL</td>
+      <td class="act-hcp" style="background:#fff5f5">9</td>
+      <td class="act-stb" style="background:#fff5f5">38</td>
+      <td style="text-align:center;background:#fff5f5"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center;background:#fff5f5"><span class="dif-star">★ 5.6</span></td>
+    </tr><tr style="background:#fff5f5">
+      <td class="act-fecha" style="background:#fff5f5">01/05/2026</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff5f5" title="CAMPEONATO SENIOR DE BASOZABAL">CAMPEONATO SENIOR DE BASOZABAL</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff5f5" title="BASOZABAL">BASOZABAL</td>
+      <td class="act-hcp" style="background:#fff5f5">9</td>
+      <td class="act-stb" style="background:#fff5f5">38</td>
+      <td style="text-align:center;background:#fff5f5"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center;background:#fff5f5"><span class="dif-star">★ 5.6</span></td>
+    </tr><tr>
+      <td class="act-fecha">25/04/2026</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="PREMIO INDIVIDUAL BLOKE LOGÍSTICO ALKAIN">PREMIO INDIVIDUAL BLOKE LOGÍSTICO ALKAIN</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="SAN SEBASTIAN">SAN SEBASTIAN</td>
+      <td class="act-hcp">7</td>
+      <td class="act-stb">31</td>
+      <td style="text-align:center"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center"><span class="dif-norm">10.7</span></td>
+    </tr><tr>
+      <td class="act-fecha">05/10/2025</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="NINOS CONTRA EL CANCER">NINOS CONTRA EL CANCER</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="Ulzama - Ulzama">Ulzama - Ulzama</td>
+      <td class="act-hcp">8</td>
+      <td class="act-stb">32</td>
+      <td style="text-align:center"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center"><span class="dif-norm">9.3</span></td>
+    </tr><tr>
+      <td class="act-fecha">20/09/2025</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="10º TORNEO RESTAURANTES DEL REYNO">10º TORNEO RESTAURANTES DEL REYNO</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="SEÑORÍO ZUASTI">SEÑORÍO ZUASTI</td>
+      <td class="act-hcp">6</td>
+      <td class="act-stb">32</td>
+      <td style="text-align:center"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center"><span class="dif-norm">9.3</span></td>
+    </tr><tr>
+      <td class="act-fecha">05/08/2025</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="XLVII NEREA - LARREA - IÑIGO ECHAVE">XLVII NEREA - LARREA - IÑIGO ECHAVE</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="RGC ZARAUZ">RGC ZARAUZ</td>
+      <td class="act-hcp">7</td>
+      <td class="act-stb">30</td>
+      <td style="text-align:center"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center"><span class="dif-norm">9.4</span></td>
+    </tr><tr style="background:#fff5f5">
+      <td class="act-fecha" style="background:#fff5f5">28/06/2025</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff5f5" title="TORNEO BARNES INTERNATIONAL">TORNEO BARNES INTERNATIONAL</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff5f5" title="BASOZABAL">BASOZABAL</td>
+      <td class="act-hcp" style="background:#fff5f5">8</td>
+      <td class="act-stb" style="background:#fff5f5">35</td>
+      <td style="text-align:center;background:#fff5f5"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center;background:#fff5f5"><span class="dif-star">★ 7.3</span></td>
+    </tr><tr>
+      <td class="act-fecha">27/06/2025</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="XXI CIRCUITO COAVN DE GOLF">XXI CIRCUITO COAVN DE GOLF</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="IZKI">IZKI</td>
+      <td class="act-hcp">9</td>
+      <td class="act-stb">25</td>
+      <td style="text-align:center"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center"><span class="dif-norm">14.8</span></td>
+    </tr><tr style="background:#fff5f5">
+      <td class="act-fecha" style="background:#fff5f5">21/06/2025</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff5f5" title="PREMIO BENÉFICO NAGUSILAN">PREMIO BENÉFICO NAGUSILAN</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff5f5" title="SAN SEBASTIAN">SAN SEBASTIAN</td>
+      <td class="act-hcp" style="background:#fff5f5">7</td>
+      <td class="act-stb" style="background:#fff5f5">38</td>
+      <td style="text-align:center;background:#fff5f5"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center;background:#fff5f5"><span class="dif-star">★ 4.9</span></td>
+    </tr><tr style="background:#fff5f5">
+      <td class="act-fecha" style="background:#fff5f5">24/05/2025</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff5f5" title="I TORNEO LEXUS SAN SEBASTIAN">I TORNEO LEXUS SAN SEBASTIAN</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff5f5" title="BASOZABAL">BASOZABAL</td>
+      <td class="act-hcp" style="background:#fff5f5">8</td>
+      <td class="act-stb" style="background:#fff5f5">37</td>
+      <td style="text-align:center;background:#fff5f5"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center;background:#fff5f5"><span class="dif-star">★ 5.6</span></td>
+    </tr><tr style="background:#fff5f5">
+      <td class="act-fecha" style="background:#fff5f5">22/05/2025</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff5f5" title="TORNEO ANDBANK">TORNEO ANDBANK</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff5f5" title="SAN SEBASTIAN">SAN SEBASTIAN</td>
+      <td class="act-hcp" style="background:#fff5f5">7</td>
+      <td class="act-stb" style="background:#fff5f5">30</td>
+      <td style="text-align:center;background:#fff5f5"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center;background:#fff5f5"><span class="dif-star">★ 5.6</span></td>
+    </tr><tr>
+      <td class="act-fecha">12/04/2025</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="TORNEO MASTERS BY BIGOUTLET">TORNEO MASTERS BY BIGOUTLET</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="BASOZABAL">BASOZABAL</td>
+      <td class="act-hcp">8</td>
+      <td class="act-stb">33</td>
+      <td style="text-align:center"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center"><span class="dif-norm">11.5</span></td>
+    </tr><tr>
+      <td class="act-fecha">06/04/2025</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="CAMPEONATO BASOZABAL SENIOR">CAMPEONATO BASOZABAL SENIOR</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="BASOZABAL">BASOZABAL</td>
+      <td class="act-hcp">8</td>
+      <td class="act-stb">25</td>
+      <td style="text-align:center"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center"><span class="dif-norm">15.7</span></td>
+    </tr><tr>
+      <td class="act-fecha">30/03/2025</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="PREMIO JOYERIA AYESTARAN">PREMIO JOYERIA AYESTARAN</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="BASOZABAL">BASOZABAL</td>
+      <td class="act-hcp">8</td>
+      <td class="act-stb">28</td>
+      <td style="text-align:center"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center"><span class="dif-norm">13.1</span></td>
+    </tr><tr>
+      <td class="act-fecha">01/03/2025</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="TORNEO SOCIAL BASOZABAL">TORNEO SOCIAL BASOZABAL</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="BASOZABAL">BASOZABAL</td>
+      <td class="act-hcp">7</td>
+      <td class="act-stb">28</td>
+      <td style="text-align:center"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center"><span class="dif-norm">12.3</span></td>
+    </tr><tr style="background:#fff5f5">
+      <td class="act-fecha" style="background:#fff5f5">28/12/2024</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff5f5" title="TORNEO COMITE DE COMPETICION">TORNEO COMITE DE COMPETICION</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff5f5" title="BASOZABAL">BASOZABAL</td>
+      <td class="act-hcp" style="background:#fff5f5">7</td>
+      <td class="act-stb" style="background:#fff5f5">35</td>
+      <td style="text-align:center;background:#fff5f5"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center;background:#fff5f5"><span class="dif-star">★ 4.8</span></td>
+    </tr><tr style="background:#fff5f5">
+      <td class="act-fecha" style="background:#fff5f5">30/11/2024</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff5f5" title="OLYMPIA ROAD SOCIAL">OLYMPIA ROAD SOCIAL</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fff5f5" title="SAN SEBASTIAN">SAN SEBASTIAN</td>
+      <td class="act-hcp" style="background:#fff5f5">6</td>
+      <td class="act-stb" style="background:#fff5f5">31</td>
+      <td style="text-align:center;background:#fff5f5"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center;background:#fff5f5"><span class="dif-star">★ 9.1</span></td>
+    </tr><tr>
+      <td class="act-fecha">15/11/2024</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="TORNEO ARQUITECTOS VASCO NAVARRO 2024">TORNEO ARQUITECTOS VASCO NAVARRO 2024</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="MEAZTEGI">MEAZTEGI</td>
+      <td class="act-hcp">4</td>
+      <td class="act-stb">25</td>
+      <td style="text-align:center"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center"><span class="dif-norm">13.2</span></td>
+    </tr><tr>
+      <td class="act-fecha">12/10/2024</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="PREMIO INDIVIDUAL RGCSS LIGA">PREMIO INDIVIDUAL RGCSS LIGA</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="SAN SEBASTIAN">SAN SEBASTIAN</td>
+      <td class="act-hcp">6</td>
+      <td class="act-stb">25</td>
+      <td style="text-align:center"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center"><span class="dif-norm">14.9</span></td>
+    </tr><tr>
+      <td class="act-fecha">30/08/2024</td>
+      <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="PREMIO FUNDACIÓN WHY NOT 30-08-24">PREMIO FUNDACIÓN WHY NOT 30-08-24</td>
+      <td style="color:#64748b;font-size:0.8rem;max-width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="BASOZABAL">BASOZABAL</td>
+      <td class="act-hcp">7</td>
+      <td class="act-stb">31</td>
+      <td style="text-align:center"><span style="color:#94a3b8">0</span></td>
+      <td style="text-align:center"><span class="dif-norm">9.8</span></td>
+    </tr></tbody>
+  </table></div>
 </div>
 
 <script>
@@ -501,43 +684,7 @@ function fetchTimeout(url, ms) {
   return fetch(url, { signal: ctrl.signal }).finally(() => clearTimeout(t));
 }
 
-async function fetchFirstSuccessful(urls, { timeout = 10000, responseType = 'arrayBuffer', validator } = {}) {
-  const controllers = [];
-  const requests = urls.map(url => {
-    const ctrl = new AbortController();
-    controllers.push(ctrl);
-    return fetch(url, { signal: ctrl.signal })
-      .then(async resp => {
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-        const value = responseType === 'text' ? await resp.text() : await resp.arrayBuffer();
-        if (validator && !validator(value)) throw new Error('Invalid response');
-        return { url, value };
-      });
-  });
-  const timeoutId = setTimeout(() => controllers.forEach(c => c.abort()), timeout);
-  try {
-    const { value } = await Promise.any(requests);
-    return value;
-  } finally {
-    clearTimeout(timeoutId);
-    controllers.forEach(c => c.abort());
-  }
-}
-
-async function concurrentMap(items, mapper, concurrency = 3) {
-  const results = new Array(items.length);
-  const queue = items.map((item, index) => ({ item, index }));
-  const workers = Array.from({ length: Math.min(concurrency, queue.length) }, async () => {
-    let entry;
-    while ((entry = queue.shift())) {
-      results[entry.index] = await mapper(entry.item, entry.index);
-    }
-  });
-  await Promise.all(workers);
-  return results;
-}
-
-const JUGADORES_ACT = [
+const _ACT_INICIAL = [
   {
     nombre: "Gonzalo Zuñiga Ascunce", licencia: "VB09720776", hcpAct: 11.9, pdfFecha: "08/12/2025",
     rondas: [
@@ -689,6 +836,9 @@ const JUGADORES_ACT = [
     ]
   }
 ];
+const _ACT_KEY = 'arbolito-handicaps-actividad';
+let JUGADORES_ACT = (() => { try { const s = localStorage.getItem(_ACT_KEY); return s ? JSON.parse(s) : _ACT_INICIAL; } catch { return _ACT_INICIAL; } })();
+function guardarActividad() { try { localStorage.setItem(_ACT_KEY, JSON.stringify(JUGADORES_ACT)); } catch(e) {} }
 
 function renderTablaActividad() {
   const sel = document.getElementById('selectJugador');
@@ -933,18 +1083,20 @@ async function actualizarActividad() {
   ];
   setStatus(`⏳ Descargando datos de ${jugador.nombre.split(' ')[0]}...`);
   try {
-    const fetchPdf = async () => await fetchFirstSuccessful(proxyUrls, {
-      timeout: 10000,
-      responseType: 'arrayBuffer',
-      validator: candidate => candidate.byteLength > 1000
-    });
-
-    let buf = null;
-    try { buf = await fetchPdf(); } catch (e) { /* continue to retry */ }
-    if (!buf) {
-      await new Promise(r => setTimeout(r, 800));
-      try { buf = await fetchPdf(); } catch (e) { /* continue */ }
-    }
+    const tryProxies = async () => {
+      for (const url of proxyUrls) {
+        try {
+          const resp = await fetchTimeout(url, 10000);
+          if (!resp.ok) continue;
+          const candidate = await resp.arrayBuffer();
+          if (candidate.byteLength > 1000) return candidate;
+        } catch { continue; }
+      }
+      return null;
+    };
+    let buf = await tryProxies();
+    if (!buf) { await new Promise(r => setTimeout(r, 2000)); buf = await tryProxies(); }
+    if (!buf) { await new Promise(r => setTimeout(r, 2000)); buf = await tryProxies(); }
     if (!buf) throw new Error(`Sin datos en RFEG para ${jugador.licencia} — probá cargar el PDF manualmente.`);
     const items = await extraerItemsPDF(buf);
     const filas = agruparFilas(items);
@@ -970,6 +1122,7 @@ async function actualizarActividad() {
         guardarDatos(jugadoresClasif);
         renderTabla();
       }
+      guardarActividad();
       renderTablaActividad();
       marcarFichasPendientes();
       setStatus(`✅ ${jugador.nombre.split(' ')[0]} actualizado — ${datos.rondas.length} ronda(s) · HCP: ${jugador.hcpAct}.`);
@@ -1119,6 +1272,7 @@ async function cargarPDFManual(event) {
       jugador.rondas   = datos.rondas;
       jugador.hcpAct   = datos.hcpAct   ?? jugador.hcpAct;
       jugador.pdfFecha = datos.pdfFecha ?? jugador.pdfFecha;
+      guardarActividad();
       renderTablaActividad();
       setStatus(`✅ ${jugador.nombre.split(' ')[0]} actualizado — ${datos.rondas.length} ronda(s).`);
     } else {
@@ -1152,44 +1306,22 @@ async function cargarPDFManual(event) {
     document.getElementById('fechaHoy').textContent =
         'Fecha actual: ' + hoy.toLocaleDateString('es-ES', opciones);
 
-    // DATOS — se actualizan al pulsar 💾 Guardar y reemplazar el archivo
-    let _jugadores = [
+    // DATOS — guardados en localStorage automáticamente
+    const _DATA_KEY = 'arbolito-handicaps-jugadores';
+    const _DATA_INICIAL = [
                 {
                         "nombre": "Juan Ignacio Orbe Murua",
                         "licencia": "VB01069771",
                         "hcpIni": 6.5,
-                        "hcpAct": 6.5,
+                        "hcpAct": 6.488,
                         "fechaMod": "30-05-2026",
                         "premiosAño": 3
-                },
-                {
-                        "nombre": "Gonzalo ZuñIga Ascunce",
-                        "licencia": "VB09720776",
-                        "hcpIni": 11.7,
-                        "hcpAct": 11.7,
-                        "fechaMod": "09-12-2025",
-                        "premiosAño": 0
-                },
-                {
-                        "nombre": "Leonor De Los Toyos Fischer",
-                        "licencia": "4405775876",
-                        "hcpIni": 19,
-                        "hcpAct": 15.9,
-                        "fechaMod": "01-06-2026",
-                        "premiosAño": 6
-                },
-                {
-                        "nombre": "Antonio Iturriagagoitia Ripoll",
-                        "licencia": "4401458872",
-                        "hcpIni": 3.5,
-                        "hcpAct": 4,
-                        "fechaMod": "01-06-2026",
-                        "premiosAño": 5
                 }
         ];
+    let _jugadores = (() => { try { const s = localStorage.getItem(_DATA_KEY); return s ? JSON.parse(s) : _DATA_INICIAL; } catch { return _DATA_INICIAL; } })();
 
     function cargarDatos() { return _jugadores; }
-    function guardarDatos(datos) { _jugadores = datos; }
+    function guardarDatos(datos) { _jugadores = datos; try { localStorage.setItem(_DATA_KEY, JSON.stringify(datos)); } catch(e) {} }
 
 
     function actualizarEnlaceRFEG() {
@@ -1267,8 +1399,11 @@ async function cargarPDFManual(event) {
 
         const doc = new DOMParser().parseFromString(html, 'text/html');
         const tds = Array.from(doc.querySelectorAll('td'));
+
+        // Debug: ayuda a diagnosticar si la estructura cambia
         console.log(`[RFEG ${licencia}] celdas:`, tds.map(td => td.textContent.trim()).filter(t => t));
 
+        // Buscar celda "Válido"
         const validoTd = tds.find(td => /^v[áa]lid[oa]$/i.test(td.textContent.trim()));
         if (validoTd) {
             const fila = validoTd.closest('tr');
@@ -1276,6 +1411,7 @@ async function cargarPDFManual(event) {
                 const celdas = Array.from(fila.querySelectorAll('td')).map(td => td.textContent.trim());
                 console.log(`[RFEG ${licencia}] fila válido:`, celdas);
                 const iValido = celdas.findIndex(c => /^v[áa]lid[oa]$/i.test(c));
+                // Intentar distintas posiciones: nombre puede estar en iValido-3 o iValido-2
                 for (const offset of [3, 2, 4]) {
                     if (iValido < offset) continue;
                     const nombre = celdas[iValido - offset].toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
@@ -1286,6 +1422,7 @@ async function cargarPDFManual(event) {
             }
         }
 
+        // Fallback 1: buscar número de handicap cerca del número de licencia en el texto
         const texto = doc.body ? doc.body.innerText || doc.body.textContent : html;
         const licNum = licencia.replace(/\D/g, '');
         const mLic = texto.match(new RegExp(`([A-ZÁÉÍÓÚÑ][A-ZÁÉÍÓÚÑa-záéíóúñ, ]{4,})\\s+${licNum}\\D*(\\d+[,.]\\d+)`));
@@ -1295,6 +1432,7 @@ async function cargarPDFManual(event) {
             if (!isNaN(hcpAct)) return { nombre, hcpAct, fechaMod: '' };
         }
 
+        // Fallback 2: regex genérica
         const m = texto.match(/([A-ZÁÉÍÓÚÑ][A-ZÁÉÍÓÚÑa-záéíóúñ ]{4,})\s+[\w-]+\s+([\d,]+)\s+V[áa]lid/i);
         if (m) {
             const nombre = m[1].trim().toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
@@ -1317,46 +1455,6 @@ async function cargarPDFManual(event) {
             }
         }
         throw ultimoError;
-    }
-
-    async function actualizarJugador(idx) {
-        const jugadores = cargarDatos();
-        const jugador = jugadores[idx];
-        if (!jugador) return;
-
-        const btn = document.getElementById(`btn-update-${idx}`);
-        const originalText = btn ? btn.textContent : '↻';
-        if (btn) {
-            btn.disabled = true;
-            btn.textContent = '⏳';
-        }
-
-        try {
-            const { nombre, hcpAct, fechaMod } = await buscarEnRFEGConReintentos(jugador.licencia, 5, (intento) => {
-                if (btn && intento > 1) btn.textContent = `⏳ ${intento}/5`;
-            });
-            jugador.nombre = nombre;
-            jugador.hcpAct = hcpAct;
-            jugador.fechaMod = fechaMod || '';
-
-            const jActWeb = JUGADORES_ACT.find(ja => ja.licencia.toUpperCase() === jugador.licencia.toUpperCase());
-            if (jActWeb) {
-                jActWeb.nombre = nombre;
-                jActWeb.hcpAct = hcpAct;
-            }
-
-            guardarDatos(jugadores);
-            renderTabla();
-            renderTablaActividad();
-            setEstado(`✓ ${jugador.nombre} actualizado · HCP: ${hcpAct.toFixed(1)}`, 'ok');
-        } catch (err) {
-            setEstado(`⚠ ${err.message}`, 'error');
-        } finally {
-            if (btn) {
-                btn.disabled = false;
-                btn.textContent = originalText;
-            }
-        }
     }
 
     function editarHcpIni(td, idx) {
@@ -1393,74 +1491,24 @@ async function cargarPDFManual(event) {
             if (jugadores.length === 0) { setEstado('No hay jugadores en la tabla.', 'error'); return; }
 
             btn.disabled = true;
-            const añoActual = String(new Date().getFullYear());
-            const hoy = new Date(); hoy.setHours(0,0,0,0);
+            let ok = 0, errores = [];
 
-            let ok = 0;
-            const errores = [];
-            let completed = 0;
-            const updateProgress = () => {
-                if (btn) btn.textContent = `↻ Actualizando ${completed}/${jugadores.length}...`;
-            };
-            updateProgress();
-
-            const tasks = jugadores.map((j, i) => ({ j, i }));
-            await concurrentMap(tasks, async ({ j, i }) => {
+            for (let i = 0; i < jugadores.length; i++) {
+                const j = jugadores[i];
                 try {
-                    const { nombre, hcpAct, fechaMod } = await buscarEnRFEGConReintentos(j.licencia, 5);
+                    const { nombre, hcpAct, fechaMod } = await buscarEnRFEGConReintentos(j.licencia, 5, (intento) => {
+                        btn.textContent = `↻ ${i + 1}/${jugadores.length} ${j.nombre.split(' ')[0]}${intento > 1 ? ` (reint. ${intento}/5)` : ''}...`;
+                    });
                     jugadores[i].hcpAct = hcpAct;
                     jugadores[i].nombre = nombre;
                     jugadores[i].fechaMod = fechaMod || '';
-
                     const jActWeb = JUGADORES_ACT.find(ja => ja.licencia.toUpperCase() === j.licencia.toUpperCase());
                     if (jActWeb) { jActWeb.hcpAct = hcpAct; jActWeb.nombre = nombre; }
-
-                    const mfCheck = (jugadores[i].fechaMod || '').match(/(\d{2})[-\/](\d{2})[-\/](\d{4})/);
-                    const fechaModDate = mfCheck ? new Date(+mfCheck[3], +mfCheck[2] - 1, +mfCheck[1]) : null;
-                    const esReciente = fechaModDate && (hoy - fechaModDate) / 86400000 < 2;
-
-                    if (esReciente) {
-                        try {
-                            await cargarPDFJS();
-                            const licM = j.licencia.match(/^[A-Z]{2}\d{2}(.+)$/);
-                            const id   = licM ? licM[1].toLowerCase() : j.licencia.replace(/\D/g, '').slice(-6);
-                            const pdfUrl = `https://api.rfeg.es/files/summaryhandicap/${id}.pdf`;
-                            const proxyUrls = [
-                                pdfUrl,
-                                `https://corsproxy.io/?${encodeURIComponent(pdfUrl)}`,
-                                `https://api.allorigins.win/raw?url=${encodeURIComponent(pdfUrl)}`,
-                            ];
-                            const buf = await fetchFirstSuccessful(proxyUrls, {
-                                timeout: 10000,
-                                responseType: 'arrayBuffer',
-                                validator: candidate => candidate.byteLength > 1000
-                            });
-
-                            if (buf) {
-                                const items = await extraerItemsPDF(buf);
-                                const filas = agruparFilas(items);
-                                const datos = parsearRFEG(filas);
-                                if (datos.rondas.length > 0) {
-                                    const jAct = JUGADORES_ACT.find(ja => ja.licencia.toUpperCase() === j.licencia.toUpperCase());
-                                    if (jAct) {
-                                        jAct.rondas   = datos.rondas;
-                                        jAct.hcpAct   = datos.hcpAct   ?? jAct.hcpAct;
-                                        jAct.pdfFecha = datos.pdfFecha ?? jAct.pdfFecha;
-                                    }
-                                    jugadores[i].premiosAño = datos.rondas.filter(r => r.fecha && r.fecha.slice(-4) === añoActual).length;
-                                }
-                            }
-                        } catch { /* si falla el PDF, premiosAño queda sin cambio */ }
-                    }
-
                     ok++;
                 } catch {
-                    errores.push(j.licencia);
-                } finally {
-                    completed++;
-                    updateProgress();
+                    errores.push(j.nombre.split(' ')[0]);
                 }
-            }, 3);
+            }
 
             guardarDatos(jugadores);
             renderTabla();
@@ -1497,12 +1545,42 @@ async function cargarPDFManual(event) {
         renderTabla();
     }
 
+    async function actualizarJugador(idx) {
+        const jugadores = cargarDatos();
+        const jugador = jugadores[idx];
+        if (!jugador) return;
+
+        const btn = document.getElementById(`btn-update-${idx}`);
+        if (btn) { btn.disabled = true; btn.textContent = '⏳'; }
+
+        try {
+            const { nombre, hcpAct, fechaMod } = await buscarEnRFEGConReintentos(jugador.licencia, 5, (intento) => {
+                if (btn && intento > 1) btn.textContent = `⏳ ${intento}/5`;
+            });
+            jugador.nombre = nombre;
+            jugador.hcpAct = hcpAct;
+            jugador.fechaMod = fechaMod || '';
+
+            const jActWeb = JUGADORES_ACT.find(ja => ja.licencia.toUpperCase() === jugador.licencia.toUpperCase());
+            if (jActWeb) { jActWeb.nombre = nombre; jActWeb.hcpAct = hcpAct; }
+
+            guardarDatos(jugadores);
+            renderTabla();
+            renderTablaActividad();
+            setEstado(`✓ ${nombre} actualizado · HCP: ${hcpAct.toFixed(1)}`, 'ok');
+        } catch (err) {
+            setEstado(`⚠ ${err.message}`, 'error');
+        } finally {
+            if (btn) { btn.disabled = false; btn.textContent = '↻'; }
+        }
+    }
+
     function renderTabla() {
         const jugadores = cargarDatos();
 
         if (jugadores.length === 0) {
             document.getElementById('tabla-body').innerHTML =
-                '<tr><td colspan="9" class="empty">Aún no hay jugadores. Añade el primero con el formulario.</td></tr>';
+                '<tr><td colspan="11" class="empty">Aún no hay jugadores. Añade el primero con el formulario.</td></tr>';
             return;
         }
 
@@ -1516,14 +1594,19 @@ async function cargarPDFManual(event) {
         // Orden inverso al % incremento: de menor (más mejora) a mayor
         conIncremento.sort((a, b) => a.incremento - b.incremento);
 
+        const medallas = ['🥇','🥈','🥉'];
+
         const filas = conIncremento.map((j, pos) => {
             const signo = j.incremento > 0 ? '+' : '';
             const cls   = j.incremento < 0 ? 'inc-mejor'
                         : j.incremento > 0 ? 'inc-peor'
                         : 'inc-igual';
 
-            const posTexto = `<span class="pos">${pos + 1}</span>`;
-            const claseTop = j.incremento < 0 ? 'topGreen' : '';
+            const posTexto = pos < 3
+                ? `<span class="medal">${medallas[pos]}</span>`
+                : `<span class="pos">${pos + 1}</span>`;
+
+            const claseTop = pos === 0 ? 'top1' : pos < 3 ? 'top6' : j.incremento < 0 ? 'topGreen' : '';
 
             const premiosAño = j.premiosAño != null ? j.premiosAño : '—';
             const hoy = new Date(); hoy.setHours(0,0,0,0);
@@ -1586,39 +1669,16 @@ async function cargarPDFManual(event) {
         renderTablaActividad();
     }
 
-    let _fileHandle = null;
-
     async function guardarJSON() {
         const jugadores = cargarDatos();
-        if (jugadores.length === 0) { setEstado('No hay datos para guardar.', 'error'); return; }
-        const datosStr = JSON.stringify(jugadores, null, 8).replace(/^/gm, '        ').trim();
-        let html = document.documentElement.outerHTML;
-        html = html.replace(/let _jugadores = \[[\s\S]*?\];/, `let _jugadores = ${datosStr};`);
-        const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-        // iOS Safari no soporta showSaveFilePicker — usa descarga directa
-        if (!window.showSaveFilePicker) {
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url; a.download = 'arbolito2026.html';
-            document.body.appendChild(a); a.click();
-            document.body.removeChild(a); URL.revokeObjectURL(url);
-            setEstado('✓ Descargado. Reemplazá el archivo original con éste.', 'ok');
-            return;
-        }
-        try {
-            if (!_fileHandle) {
-                _fileHandle = await window.showSaveFilePicker({
-                    suggestedName: 'arbolito2026 viernes clink.html',
-                    types: [{ description: 'Página HTML', accept: { 'text/html': ['.html'] } }]
-                });
-            }
-            const writable = await _fileHandle.createWritable();
-            await writable.write(blob);
-            await writable.close();
-            setEstado('✓ Archivo guardado correctamente.', 'ok');
-        } catch (err) {
-            if (err.name !== 'AbortError') setEstado('Error al guardar: ' + err.message, 'error');
-        }
+        if (jugadores.length === 0) { setEstado('No hay datos para exportar.', 'error'); return; }
+        const blob = new Blob([JSON.stringify({ jugadores, actividad: JUGADORES_ACT }, null, 2)], { type: 'application/json;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'arbolito-handicaps-backup.json';
+        document.body.appendChild(a); a.click();
+        document.body.removeChild(a); URL.revokeObjectURL(url);
+        setEstado('✓ Backup descargado.', 'ok');
     }
 
     function cargarJSON(event) {
@@ -1627,11 +1687,19 @@ async function cargarPDFManual(event) {
         const reader = new FileReader();
         reader.onload = e => {
             try {
-                const datos = JSON.parse(e.target.result);
+                let datos = JSON.parse(e.target.result);
+                if (datos && !Array.isArray(datos) && datos.jugadores) {
+                    if (Array.isArray(datos.actividad)) {
+                        JUGADORES_ACT.length = 0;
+                        datos.actividad.forEach(j => JUGADORES_ACT.push(j));
+                        guardarActividad();
+                    }
+                    datos = datos.jugadores;
+                }
                 if (!Array.isArray(datos)) throw new Error();
                 guardarDatos(datos);
                 renderTabla();
-                setEstado(`✓ ${datos.length} jugadores cargados. Pulsa 💾 Guardar para guardar en el archivo.`, 'ok');
+                setEstado(`✓ ${datos.length} jugadores cargados.`, 'ok');
             } catch {
                 setEstado('Error: el archivo no es válido.', 'error');
             }
